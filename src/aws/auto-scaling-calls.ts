@@ -17,6 +17,7 @@
  */
 
 import * as AWS from 'aws-sdk';
+import { AWSError } from 'aws-sdk/lib/error';
 import * as winston from 'winston';
 import awsWrapper from './aws-wrapper';
 
@@ -61,7 +62,7 @@ export async function cycleInstances(instancesToCycle: AWS.ECS.ContainerInstance
     return recycleWk([], instancesToCycle);
 }
 
-export async function describeLaunchConfigurationsByInstanceIds(instanceIds: string[]) {
+export async function describeLaunchConfigurationsByInstanceIds(instanceIds: string[]): Promise<AWS.AutoScaling.LaunchConfigurationsType | null> {
     try {
         const describeAsgInstancesParams = {
             InstanceIds: instanceIds
